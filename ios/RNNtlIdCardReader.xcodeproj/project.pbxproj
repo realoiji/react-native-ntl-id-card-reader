@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B3E7B58A1CC2AC0600A0062D /* RNNtlIdCardReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNNtlIdCardReader.m */; };
-		E632067826120B3600529ACC /* libiRockey301_ccid_V3.5.61_debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E632066E26120B3600529ACC /* libiRockey301_ccid_V3.5.61_debug.a */; };
+		E657D24C261EF15000599EBF /* libiRockey301_ccid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E657D241261EF14F00599EBF /* libiRockey301_ccid.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,16 +31,17 @@
 		E632066926120B3600529ACC /* wintypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wintypes.h; sourceTree = "<group>"; };
 		E632066A26120B3600529ACC /* winscard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = winscard.h; sourceTree = "<group>"; };
 		E632066B26120B3600529ACC /* ft301u.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ft301u.h; sourceTree = "<group>"; };
-		E632066D26120B3600529ACC /* libiRockey301_ccid_V1.32.5_Debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V1.32.5_Debug.a; sourceTree = "<group>"; };
-		E632066E26120B3600529ACC /* libiRockey301_ccid_V3.5.61_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.61_debug.a; sourceTree = "<group>"; };
-		E632066F26120B3600529ACC /* libiRockey301_ccid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid.a; sourceTree = "<group>"; };
-		E632067026120B3600529ACC /* libiRockey301_ccid_V3.5.61_release.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.61_release.a; sourceTree = "<group>"; };
-		E632067126120B3600529ACC /* libiRockey301_ccid_V3.5.16_Release.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.16_Release.a; sourceTree = "<group>"; };
-		E632067226120B3600529ACC /* libiRockey301_ccid_V3.5.52_release.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.52_release.a; sourceTree = "<group>"; };
-		E632067326120B3600529ACC /* libiRockey301_ccid_V3.5.16_Debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.16_Debug.a; sourceTree = "<group>"; };
-		E632067426120B3600529ACC /* libiRockey301_ccid_V3.5.29_Debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.29_Debug.a; sourceTree = "<group>"; };
-		E632067526120B3600529ACC /* libiRockey301_ccid_V3.5.52_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.52_debug.a; sourceTree = "<group>"; };
-		E632067626120B3600529ACC /* libiRockey301_ccid_V3.5.29_Release.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.29_Release.a; sourceTree = "<group>"; };
+		E657D23F261EF14F00599EBF /* libiRockey301_ccid_V1.32.5_Debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V1.32.5_Debug.a; sourceTree = "<group>"; };
+		E657D240261EF14F00599EBF /* libiRockey301_ccid_V3.5.61_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.61_debug.a; sourceTree = "<group>"; };
+		E657D241261EF14F00599EBF /* libiRockey301_ccid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid.a; sourceTree = "<group>"; };
+		E657D242261EF14F00599EBF /* libiRockey301_ccid_V3.5.61_release.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.61_release.a; sourceTree = "<group>"; };
+		E657D243261EF14F00599EBF /* libiRockey301_ccid_V3.5.16_Release.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.16_Release.a; sourceTree = "<group>"; };
+		E657D244261EF14F00599EBF /* libiRockey301_ccid_V3.5.52_release.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.52_release.a; sourceTree = "<group>"; };
+		E657D245261EF14F00599EBF /* libiRockey301_ccid_V3.5.16_Debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.16_Debug.a; sourceTree = "<group>"; };
+		E657D246261EF15000599EBF /* libiRockey301_ccid_V3.5.29_Debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.29_Debug.a; sourceTree = "<group>"; };
+		E657D247261EF15000599EBF /* libiRockey301_ccid_V3.5.52_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.52_debug.a; sourceTree = "<group>"; };
+		E657D248261EF15000599EBF /* libiRockey301_ccid_bak.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_bak.a; sourceTree = "<group>"; };
+		E657D249261EF15000599EBF /* libiRockey301_ccid_V3.5.29_Release.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiRockey301_ccid_V3.5.29_Release.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E632067826120B3600529ACC /* libiRockey301_ccid_V3.5.61_debug.a in Frameworks */,
+				E657D24C261EF15000599EBF /* libiRockey301_ccid.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,8 +77,8 @@
 		E632066626120B3600529ACC /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				E657D23E261EF14F00599EBF /* lib */,
 				E632066726120B3600529ACC /* include */,
-				E632066C26120B3600529ACC /* lib */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -93,19 +94,20 @@
 			path = include;
 			sourceTree = "<group>";
 		};
-		E632066C26120B3600529ACC /* lib */ = {
+		E657D23E261EF14F00599EBF /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				E632066D26120B3600529ACC /* libiRockey301_ccid_V1.32.5_Debug.a */,
-				E632066E26120B3600529ACC /* libiRockey301_ccid_V3.5.61_debug.a */,
-				E632066F26120B3600529ACC /* libiRockey301_ccid.a */,
-				E632067026120B3600529ACC /* libiRockey301_ccid_V3.5.61_release.a */,
-				E632067126120B3600529ACC /* libiRockey301_ccid_V3.5.16_Release.a */,
-				E632067226120B3600529ACC /* libiRockey301_ccid_V3.5.52_release.a */,
-				E632067326120B3600529ACC /* libiRockey301_ccid_V3.5.16_Debug.a */,
-				E632067426120B3600529ACC /* libiRockey301_ccid_V3.5.29_Debug.a */,
-				E632067526120B3600529ACC /* libiRockey301_ccid_V3.5.52_debug.a */,
-				E632067626120B3600529ACC /* libiRockey301_ccid_V3.5.29_Release.a */,
+				E657D23F261EF14F00599EBF /* libiRockey301_ccid_V1.32.5_Debug.a */,
+				E657D240261EF14F00599EBF /* libiRockey301_ccid_V3.5.61_debug.a */,
+				E657D241261EF14F00599EBF /* libiRockey301_ccid.a */,
+				E657D242261EF14F00599EBF /* libiRockey301_ccid_V3.5.61_release.a */,
+				E657D243261EF14F00599EBF /* libiRockey301_ccid_V3.5.16_Release.a */,
+				E657D244261EF14F00599EBF /* libiRockey301_ccid_V3.5.52_release.a */,
+				E657D245261EF14F00599EBF /* libiRockey301_ccid_V3.5.16_Debug.a */,
+				E657D246261EF15000599EBF /* libiRockey301_ccid_V3.5.29_Debug.a */,
+				E657D247261EF15000599EBF /* libiRockey301_ccid_V3.5.52_debug.a */,
+				E657D248261EF15000599EBF /* libiRockey301_ccid_bak.a */,
+				E657D249261EF15000599EBF /* libiRockey301_ccid_V3.5.29_Release.a */,
 			);
 			path = lib;
 			sourceTree = "<group>";
