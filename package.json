@@ -13,12 +13,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/realoiji/react-native-card-reader.git"
+    "url": "https://github.com/realoiji/react-native-ntl-id-card-reader.git"
   },
   "bugs": {
-    "url": "https://github.com/realoiji/react-native-card-reader/issues"
+    "url": "https://github.com/realoiji/react-native-ntl-id-card-reader/issues"
   },
-  "homepage": "https://github.com/realoiji/react-native-card-reader",
+  "homepage": "https://github.com/realoiji/react-native-ntl-id-card-reader",
   "peerDependencies": {
     "react-native": "^0.41.2",
     "react-native-windows": "0.41.0-rc.1"
