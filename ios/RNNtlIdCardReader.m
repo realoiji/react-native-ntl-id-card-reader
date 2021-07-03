@@ -210,159 +210,92 @@ RCT_EXPORT_METHOD(sendCommand: (RCTResponseSenderBlock)callback)
     memset(resp, 0, 2048 + 128);
     unsigned int resplen = sizeof(resp) ;
     
-    unsigned char readPhoto[2048 + 128];
-    memset(readPhoto, 0, 2048 + 128);
-    unsigned int readPhotolen = sizeof(readPhoto) ;
-    
-    unsigned char readData[2048 + 128];
-    memset(readData, 0, 2048 + 128);
-    unsigned int readDatalen = sizeof(resp) ;
-    
-    unsigned char readData2[2048 + 128];
-    memset(readData2, 0, 2048 + 128);
-    unsigned int readDatalen2 = sizeof(resp) ;
-    
-    unsigned char readData3[2048 + 128];
-    memset(readData3, 0, 2048 + 128);
-    unsigned int readDatalen3 = sizeof(resp) ;
-    
-    unsigned char readData4[2048 + 128];
-    memset(readData4, 0, 2048 + 128);
-    unsigned int readDatalen4 = sizeof(resp) ;
     int i;
-    NSString *rsStr;
+
+    NSString *CM_SELECT = @"00A4040008";
+    NSString *CM_MOI_AID = @"A000000054480001"; // normal
+    NSString *CM_MOI5_AID = @"A000000054480005"; // ใช้ได้
+    NSString *CM_NHSO_AID = @"A000000054480083"; // สิทธิรักษาพยาบาล
+    NSString *CM_ADM_AID = @"A000000084060002"; //
     
-    NSMutableArray *istapdu = [NSMutableArray arrayWithObjects: @"00A4040008A000000054480001", @"80B0000402000D", @"80B000110200D1", @"80B01579020064", @"80B00167020012", nil];
+
+    NSString *CM_SELECTED = [CM_SELECT stringByAppendingString:CM_MOI_AID]; //
+
+    NSString *CM_GET_RESPONSE = @"00C00000";
+    NSString *CM_TH_ID = @"80B0000402000D";
+    NSString *CM_TH_FULLNAME = @"80B00011020064";
+    NSString *CM_EN_FULLNAME = @"80B00075020064";
+    NSString *CM_DATE_OF_BIRTH = @"80B000D9020008";
+    NSString *CM_GENDER = @"80B000E1020001";
+    NSString *CM_BP1NO = @"80B000E2020014";
+    NSString *CM_CARD_ISSUE_PLACE = @"80B000F6020064";
+    NSString *CM_CARD_ISSUER = @"80B0015A02000D";
+    NSString *CM_ISSUE_DATE = @"80B00167020008";
+    NSString *CM_EXPIRE_DATE = @"80B0016F020008";
+    NSString *CM_ADDRESS = @"80B01579020064";
+    
+    // NSMutableArray *istapdu = [NSMutableArray arrayWithObjects: @"00A4040008A000000054480001", @"80B0000402000D", @"80B000110200D1", @"80B01579020064", @"80B00167020012", nil];
+    NSMutableArray *istapdu = [NSMutableArray arrayWithObjects: CM_SELECTED, CM_TH_ID, CM_TH_FULLNAME, CM_EN_FULLNAME, CM_DATE_OF_BIRTH, CM_GENDER, CM_BP1NO, CM_CARD_ISSUE_PLACE, CM_CARD_ISSUER, CM_ISSUE_DATE, CM_EXPIRE_DATE, CM_ADDRESS, nil];
     
     for (i = 0; i < [istapdu count]; i++) {
         // do something with object
-        NSLog (@"istapdu = %@", [istapdu objectAtIndex: i]);
+        NSString *targetHex = [istapdu objectAtIndex: i];
+        NSString *hexLength = [targetHex substringFromIndex: [targetHex length] - 2];
         NSData *apduData =[self hexFromString:[istapdu objectAtIndex: i]];
-        NSLog (@"hexFromString = %@", apduData);
         [apduData getBytes:capdu length:apduData.length];
-        NSLog (@"apduData = %@", apduData);
         capdulen = (unsigned int)[apduData length];
-        NSLog (@"capdulen = %i", capdulen);
+    
+        // NSLog (@"istapdu = %@", [istapdu objectAtIndex: i]);
+        NSLog (@"bb i = %d", i);
+        NSLog (@"bb targetHex = %@", targetHex);
+        NSLog (@"bb hexLength = %@", hexLength);
+//        NSLog (@"bb apduData = %@", apduData);
+//        NSLog (@"bb capdulen = %i", capdulen);
         
         //3.send data
         SCARD_IO_REQUEST pioSendPci;
         iRet = SCardTransmit(gContxtHandle, &pioSendPci, (unsigned char*)capdu, capdulen, NULL, resp, &resplen);
-        NSLog (@"iRet = %i", iRet);
+        NSLog (@"bb iRet = %i", iRet);
+
         if (iRet != 0) {
-            //            [self showMsg:[[Tools shareTools] mapErrorCode:iRet]];
-            //            [self updateDeviceStatusImage:FTCardStatusError];
-        }else {
-            if(i == 0){
-                //                [self showMsg:@"reset card"];
-            }else if (i == 1){
-                NSData *readapduData =[self hexFromString:@"00C000000D"];
-                NSLog (@"hexFromString2 = %@", readapduData);
+
+        } else {
+            if (i != 0) {
+                NSString *hexResponse = [CM_GET_RESPONSE stringByAppendingString:hexLength];
+                NSData *readapduData =[self hexFromString:hexResponse];
                 [readapduData getBytes:capdu length:readapduData.length];
-                NSLog (@"apduData2 = %@", readapduData);
                 capdulen = (unsigned int)[readapduData length];
-                NSLog (@"capdulen2 = %i", capdulen);
-                
-                //                [self updateDeviceStatusImage:FTCardStatusExcute];
-                
+
+                unsigned char readData[2048 + 128];
+                memset(readData, 0, 2048 + 128);
+                unsigned int readDatalen = sizeof(resp);
+
+                NSLog (@"bb hexResponse = %@", hexResponse);
+//                NSLog (@"bb readapduData = %@", readapduData);
+
                 SCARD_IO_REQUEST pioSendPci;
                 LONG iRet2 = SCardTransmit(gContxtHandle, &pioSendPci, (unsigned char*)capdu, capdulen, NULL, readData, &readDatalen);
-                NSLog (@"CMD_CID===");
-                NSMutableData *RevData2 = [NSMutableData data];
-                NSLog (@"readData = %s", readData);
-                NSLog (@"readDatalen = %i", readDatalen);
-                NSLog (@"iRet2 = %i", iRet2);
-                [RevData2 appendBytes:readData length:readDatalen];
-                NSString *dataShow = [NSString stringWithFormat:@"%s", readData];
-                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"ê"  withString:@""];
-                NSLog (@"dataShow:%@;",dataShow);
+//                NSString *dataShow = [NSString stringWithFormat:@"%s", readData];
                 
-                rsStr =  dataShow;
+                NSData *data = [NSData dataWithBytes:readData length:readDatalen];
+                
+                NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingISOLatinThai);
+                NSString *dataShow = [[NSString alloc] initWithData:data encoding:enc];
+                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"\\u0000"  withString:@""];
+                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"#"  withString:@" "];
+                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"  "  withString:@" "];
+                if (targetHex == CM_CARD_ISSUE_PLACE) {
+                    dataShow = [dataShow stringByReplacingOccurrencesOfString:@"/"  withString:@" "];
+                }
+                NSLog (@"bb dataShow = %@", dataShow);
+
                 [idCardArray addObject:(dataShow)];
-                
-            }else if (i == 2){
-                NSData *readapduData =[self hexFromString:@"00C00000D1"];
-                NSLog (@"hexFromString2 = %@", readapduData);
-                [readapduData getBytes:capdu length:readapduData.length];
-                NSLog (@"apduData2 = %@", readapduData);
-                capdulen = (unsigned int)[readapduData length];
-                NSLog (@"capdulen2 = %i", capdulen);
-                
-                //                [self updateDeviceStatusImage:FTCardStatusExcute];
-                
-                SCARD_IO_REQUEST pioSendPci;
-                LONG iRet2 = SCardTransmit(gContxtHandle, &pioSendPci, (unsigned char*)capdu, capdulen, NULL, readData2, &readDatalen2);
-                NSLog (@"CMD_PERSON_INFO===");
-                NSLog (@"readData2 = %s", readData2);
-                NSLog (@"readDatalen2 = %i", readDatalen2);
-                NSLog (@"iRet2 = %i", iRet2);
-                NSString *dataShow = [NSString stringWithFormat:@"%s", readData2];
-                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"ê"
-                                                               withString:@""];
-                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"Ó"
-                                                               withString:@""];
-                
-                NSLog (@"dataShow:%@",dataShow);
-                // rsStr =    [NSString stringWithFormat: @";%@%@", rsStr, dataShow];
-                [idCardArray addObject:(dataShow)];
-            }else if (i == 3){
-                NSData *readapduData =[self hexFromString:@"00C0000064"];
-                NSLog (@"hexFromString2 = %@", readapduData);
-                [readapduData getBytes:capdu length:apduData.length];
-                NSLog (@"apduData2 = %@", readapduData);
-                capdulen = (unsigned int)[readapduData length];
-                NSLog (@"capdulen2 = %i", capdulen);
-                
-                //                [self updateDeviceStatusImage:FTCardStatusExcute];
-                
-                SCARD_IO_REQUEST pioSendPci;
-                LONG iRet2 = SCardTransmit(gContxtHandle, &pioSendPci, (unsigned char*)capdu, capdulen, NULL, readData3, &readDatalen3);
-                NSLog (@"CMD_ADDRESS===");
-                NSMutableData *RevData2 = [NSMutableData data];
-                NSLog (@"readData3 = %s", readData3);
-                NSLog (@"readDatalen3 = %i", readDatalen3);
-                NSLog (@"iRet2 = %i", iRet2);
-                [RevData2 appendBytes:readData3 length:readDatalen3];
-                NSString *dataShow = [NSString stringWithFormat:@"%s", readData3];
-                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"ê"
-                                                               withString:@""];
-                NSLog (@"dataShow:%@",dataShow);
-                //rsStr =  [NSString stringWithFormat: @";%@%@", rsStr, dataShow];
-                [idCardArray addObject:(dataShow)];
-                
-            }else if (i == 4){
-                NSData *readapduData =[self hexFromString:@"00C0000012"];
-                NSLog (@"hexFromString2 = %@", readapduData);
-                [readapduData getBytes:capdu length:apduData.length];
-                NSLog (@"apduData2 = %@", readapduData);
-                capdulen = (unsigned int)[readapduData length];
-                NSLog (@"capdulen2 = %i", capdulen);
-                
-                //                [self updateDeviceStatusImage:FTCardStatusExcute];
-                
-                SCARD_IO_REQUEST pioSendPci;
-                LONG iRet2 = SCardTransmit(gContxtHandle, &pioSendPci, (unsigned char*)capdu, capdulen, NULL, readData4, &readDatalen4);
-                NSLog (@"CMD_CARD_ISSUE_EXPIRE===");
-                NSMutableData *RevData2 = [NSMutableData data];
-                NSLog (@"readData4 = %s", readData4);
-                NSLog (@"readDatalen4 = %i", readDatalen4);
-                NSLog (@"iRet2 = %i", iRet2);
-                [RevData2 appendBytes:readData4 length:readDatalen4];
-                NSString *dataShow = [NSString stringWithFormat:@"%s", readData4];
-                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"ê"
-                                                               withString:@""];
-                NSLog (@"dataShow:%@",dataShow);
-                // rsStr =  [NSString stringWithFormat: @";%@%@", rsStr, dataShow];
-                [idCardArray addObject:(dataShow)];
-            }else{
-                NSLog (@"===================");
             }
         }
-        
+        NSLog (@"bb =========");
     }
-    NSLog (@"%@", rsStr);
     NSLog (@"bb :: sendCommand = %i", _isCardConnect);
     callback(@[[NSNull null],idCardArray]);
-    
 }
 
 
