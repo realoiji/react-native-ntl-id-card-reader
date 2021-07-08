@@ -212,14 +212,16 @@ RCT_EXPORT_METHOD(sendCommand: (RCTResponseSenderBlock)callback)
     
     int i;
 
-    NSString *CM_SELECT = @"00A4040008";
     NSString *CM_MOI_AID = @"A000000054480001"; // normal
-    NSString *CM_MOI5_AID = @"A000000054480005"; // ใช้ได้
+    NSString *CM_MOI5_AID = @"A000000054480005"; // ข้อมูลทะเบียนบ้านปัจจุบัน
     NSString *CM_NHSO_AID = @"A000000054480083"; // สิทธิรักษาพยาบาล
     NSString *CM_ADM_AID = @"A000000084060002"; //
-    
+    NSString *CM_BIO_AID = @"A000000054480084";
 
+    NSString *CM_SELECT = @"00A4040008";
     NSString *CM_SELECTED = [CM_SELECT stringByAppendingString:CM_MOI_AID]; //
+    NSString *CM_MOI5_SELECTED = [CM_SELECT stringByAppendingString:CM_MOI5_AID];
+    NSString *CM_ADM_SELECTED = [CM_SELECT stringByAppendingString:CM_BIO_AID];
 
     NSString *CM_GET_RESPONSE = @"00C00000";
     NSString *CM_TH_ID = @"80B0000402000D";
@@ -227,15 +229,16 @@ RCT_EXPORT_METHOD(sendCommand: (RCTResponseSenderBlock)callback)
     NSString *CM_EN_FULLNAME = @"80B00075020064";
     NSString *CM_DATE_OF_BIRTH = @"80B000D9020008";
     NSString *CM_GENDER = @"80B000E1020001";
-    NSString *CM_BP1NO = @"80B000E2020014";
+    NSString *CM_REQUEST_NO = @"80B000E2020014";
     NSString *CM_CARD_ISSUE_PLACE = @"80B000F6020064";
     NSString *CM_CARD_ISSUER = @"80B0015A02000D";
     NSString *CM_ISSUE_DATE = @"80B00167020008";
     NSString *CM_EXPIRE_DATE = @"80B0016F020008";
     NSString *CM_ADDRESS = @"80B01579020064";
+    NSString *CM_BP1NO = @"80B0000402000B";
     
     // NSMutableArray *istapdu = [NSMutableArray arrayWithObjects: @"00A4040008A000000054480001", @"80B0000402000D", @"80B000110200D1", @"80B01579020064", @"80B00167020012", nil];
-    NSMutableArray *istapdu = [NSMutableArray arrayWithObjects: CM_SELECTED, CM_TH_ID, CM_TH_FULLNAME, CM_EN_FULLNAME, CM_DATE_OF_BIRTH, CM_GENDER, CM_BP1NO, CM_CARD_ISSUE_PLACE, CM_CARD_ISSUER, CM_ISSUE_DATE, CM_EXPIRE_DATE, CM_ADDRESS, nil];
+    NSMutableArray *istapdu = [NSMutableArray arrayWithObjects: CM_SELECTED, CM_TH_ID, CM_TH_FULLNAME, CM_EN_FULLNAME, CM_DATE_OF_BIRTH, CM_GENDER, CM_REQUEST_NO, CM_CARD_ISSUE_PLACE, CM_CARD_ISSUER, CM_ISSUE_DATE, CM_EXPIRE_DATE, CM_ADDRESS, CM_MOI5_SELECTED, CM_BP1NO, nil];
     
     for (i = 0; i < [istapdu count]; i++) {
         // do something with object
@@ -246,21 +249,21 @@ RCT_EXPORT_METHOD(sendCommand: (RCTResponseSenderBlock)callback)
         capdulen = (unsigned int)[apduData length];
     
         // NSLog (@"istapdu = %@", [istapdu objectAtIndex: i]);
-        NSLog (@"bb i = %d", i);
-        NSLog (@"bb targetHex = %@", targetHex);
-        NSLog (@"bb hexLength = %@", hexLength);
-//        NSLog (@"bb apduData = %@", apduData);
-//        NSLog (@"bb capdulen = %i", capdulen);
+        // NSLog (@"bb apduData = %@", apduData);
+        // NSLog (@"bb capdulen = %i", capdulen);
+        // NSLog (@"bb i = %d", i);
+        // NSLog (@"bb targetHex = %@", targetHex);
+        // NSLog (@"bb hexLength = %@", hexLength);
         
         //3.send data
         SCARD_IO_REQUEST pioSendPci;
         iRet = SCardTransmit(gContxtHandle, &pioSendPci, (unsigned char*)capdu, capdulen, NULL, resp, &resplen);
-        NSLog (@"bb iRet = %i", iRet);
+        // NSLog (@"bb iRet = %i", iRet);
 
         if (iRet != 0) {
 
         } else {
-            if (i != 0) {
+            if (i != 0 && i != 12) {
                 NSString *hexResponse = [CM_GET_RESPONSE stringByAppendingString:hexLength];
                 NSData *readapduData =[self hexFromString:hexResponse];
                 [readapduData getBytes:capdu length:readapduData.length];
@@ -270,31 +273,37 @@ RCT_EXPORT_METHOD(sendCommand: (RCTResponseSenderBlock)callback)
                 memset(readData, 0, 2048 + 128);
                 unsigned int readDatalen = sizeof(resp);
 
-                NSLog (@"bb hexResponse = %@", hexResponse);
+//                NSLog (@"bb hexResponse = %@", hexResponse);
 //                NSLog (@"bb readapduData = %@", readapduData);
 
                 SCARD_IO_REQUEST pioSendPci;
                 LONG iRet2 = SCardTransmit(gContxtHandle, &pioSendPci, (unsigned char*)capdu, capdulen, NULL, readData, &readDatalen);
 //                NSString *dataShow = [NSString stringWithFormat:@"%s", readData];
+//                NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingISOLatinThai);
+//                NSString *unicode = [NSString stringWithFormat:@"%s", readData];
+//                NSString *standard = [unicode stringByReplacingOccurrencesOfString:@"ê" withString:@""];
+//                NSData *data = [standard dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+//                NSData *data = [standard dataUsingEncoding:enc  allowLossyConversion:YES];
                 
-                NSData *data = [NSData dataWithBytes:readData length:readDatalen];
-                
+                NSData *data = [NSData dataWithBytes:readData length:readDatalen ];
                 NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingISOLatinThai);
                 NSString *dataShow = [[NSString alloc] initWithData:data encoding:enc];
-                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"\\u0000"  withString:@""];
-                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"#"  withString:@" "];
-                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"  "  withString:@" "];
+                
+//                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"\u0000" withString:@""];
+//                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"NUL"  withString:@""];
+//                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"#"  withString:@" "];
+//                dataShow = [dataShow stringByReplacingOccurrencesOfString:@"  "  withString:@" "];
                 if (targetHex == CM_CARD_ISSUE_PLACE) {
                     dataShow = [dataShow stringByReplacingOccurrencesOfString:@"/"  withString:@" "];
                 }
-                NSLog (@"bb dataShow = %@", dataShow);
+                // NSLog (@"bb dataShow = %@", dataShow);
 
                 [idCardArray addObject:(dataShow)];
             }
         }
-        NSLog (@"bb =========");
+        // NSLog (@"bb =========");
     }
-    NSLog (@"bb :: sendCommand = %i", _isCardConnect);
+    // NSLog (@"bb :: sendCommand = %i", _isCardConnect);
     callback(@[[NSNull null],idCardArray]);
 }
 
