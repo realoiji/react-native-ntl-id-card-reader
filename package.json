@@ -1,6 +1,6 @@
 {
   "name": "react-native-ntl-id-card-reader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "## card reader lib",
   "main": "index.js",
   "scripts": {
